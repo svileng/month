@@ -129,6 +129,12 @@ defmodule Month.Range do
     not is_nil(found_month)
   end
 
+  def shift(%Month.Range{} = range, num_months) do
+    next_first = Month.add!(range.first, num_months)
+    next_last = Month.add!(range.last, num_months)
+    new!(next_first, next_last)
+  end
+
   defimpl Inspect do
     def inspect(month_range, _opts) do
       "#Month.Range<#{inspect(month_range.first)}, #{inspect(month_range.last)}>"

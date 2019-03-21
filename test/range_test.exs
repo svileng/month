@@ -60,4 +60,20 @@ defmodule RangeTest do
       refute Month.Range.within?(~D[2018-03-15], range)
     end
   end
+
+  describe "shift/2" do
+    test "works shifting forward" do
+      {:ok, range} = Month.Range.new(~M[2019-01], ~M[2019-03])
+      {:ok, range_b} = Month.Range.new(~M[2019-04], ~M[2019-06])
+
+      assert Month.Range.shift(range, 3) == range_b
+    end
+
+    test "works shifting backwards" do
+      {:ok, range} = Month.Range.new(~M[2019-01], ~M[2019-03])
+      {:ok, range_b} = Month.Range.new(~M[2018-10], ~M[2018-12])
+
+      assert Month.Range.shift(range, -3) == range_b
+    end
+  end
 end
