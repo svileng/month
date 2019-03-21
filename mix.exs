@@ -1,7 +1,7 @@
 defmodule Month.MixProject do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "1.0.1"
 
   def project do
     [
@@ -16,10 +16,10 @@ defmodule Month.MixProject do
       package: [
         maintainers: ["Svilen Gospodinov <svilen@heresy.io>"],
         licenses: ["MIT"],
-        links: %{github: "https://github.com/heresydev/month"}
+        links: %{Github: "https://github.com/heresydev/month"}
       ],
       docs: [
-        main: "month",
+        main: "Month",
         source_url: "https://github.com/heresydev/month",
         source_ref: @version
       ]
