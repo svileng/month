@@ -20,6 +20,7 @@ defmodule Month.MixProject do
       ],
       docs: [
         main: "Month",
+        canonical: "http://hexdocs.pm/month",
         source_url: "https://github.com/heresydev/month",
         source_ref: @version
       ]
