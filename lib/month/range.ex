@@ -11,16 +11,17 @@ defmodule Month.Range do
   """
 
   import Month.Utils
+  alias Month.Period
 
   @type t :: %Month.Range{
-          first: Month.t(),
-          last: Month.t(),
+          start: Month.t(),
+          end: Month.t(),
           months: list(Month.t())
         }
 
   @required_fields [
-    :first,
-    :last,
+    :start,
+    :end,
     :months
   ]
 
@@ -47,9 +48,9 @@ defmodule Month.Range do
   def new(%Month{} = first, %Month{} = last) do
     if Month.compare(first, last) == :lt do
       result = %Month.Range{
-        first: first,
-        last: last,
-        months: months_for_range!(first, last)
+        start: first,
+        end: last,
+        months: Period.months(first, last)
       }
 
       {:ok, result}
@@ -73,71 +74,9 @@ defmodule Month.Range do
     unwrap_or_raise(new(first, last))
   end
 
-  @doc """
-  Helper functions that returns the months between the two given
-  months, inclusive. Please make sure `from_month` is before `to_month`.
-  """
-  def months_for_range(%Month{} = from_month, %Month{} = to_month) do
-    if Month.compare(from_month, to_month) == :lt do
-      {:ok, next_month} = Month.add(from_month, 1)
-
-      months =
-        next_month
-        |> Stream.unfold(fn month ->
-          if Month.compare(month, to_month) in [:eq, :gt] do
-            nil
-          else
-            {:ok, next_month} = Month.add(month, 1)
-            {month, next_month}
-          end
-        end)
-        |> Enum.to_list()
-
-      result =
-        [from_month]
-        |> Enum.concat(months)
-        |> Enum.concat([to_month])
-
-      {:ok, result}
-    else
-      {:error, "invalid_range"}
-    end
-  end
-
-  @doc """
-  Same as `months_for_range/2` but throws an exception or returns result directly.
-  """
-  def months_for_range!(%Month{} = from_month, %Month{} = to_month) do
-    unwrap_or_raise(months_for_range(from_month, to_month))
-  end
-
-  @doc """
-  Checks if first range (or date) is within second range (inclusive).
-  """
-  @spec within?(Month.Range.t(), Month.Range.t()) :: boolean
-  @spec within?(Date.t(), Month.Range.t()) :: boolean
-  def within?(%Month.Range{} = a, %Month.Range{} = b) do
-    MapSet.subset?(MapSet.new(a.months), MapSet.new(b.months))
-  end
-
-  def within?(%Date{} = date, %Month.Range{} = b) do
-    found_month =
-      Enum.find(b.months, fn month ->
-        month.month == date.month && month.year == date.year
-      end)
-
-    not is_nil(found_month)
-  end
-
-  def shift(%Month.Range{} = range, num_months) do
-    next_first = Month.add!(range.first, num_months)
-    next_last = Month.add!(range.last, num_months)
-    new!(next_first, next_last)
-  end
-
   defimpl Inspect do
     def inspect(month_range, _opts) do
-      "#Month.Range<#{inspect(month_range.first)}, #{inspect(month_range.last)}>"
+      "#Month.Range<#{inspect(month_range.start)}, #{inspect(month_range.end)}>"
     end
   end
 end

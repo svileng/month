@@ -3,7 +3,8 @@ defmodule Month do
   A data structure and a set of methods for those who work exclusively
   with months and month ranges.
 
-  Please check the documentation for `Month` as well as `Month.Range`.
+  Please check the documentation for `Month` as well as `Month.Period` and
+  `Month.Range`, which cover some extra use cases.
 
   ### Using the ~M sigil
 

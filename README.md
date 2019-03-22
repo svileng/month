@@ -10,7 +10,7 @@ by adding `month` to your list of dependencies:
 ```elixir
 def deps do
   [
-    {:month, "~> 1.0.0"}
+    {:month, "~> 2.0"}
   ]
 end
 ```
