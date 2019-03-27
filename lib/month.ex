@@ -54,8 +54,19 @@ defmodule Month do
   defstruct @required_fields
 
   @doc """
-  Creates a new `Month` struct, using either year/month or another
-  struct that has `year` and `month` fields, such as `Date` or `DateTime`.
+  Creates a new `Month` struct, using a map that has `year` and `month` fields. Intended to be
+  used with `Date` or `DateTime` structs.
+
+  ### Examples
+
+      iex> Month.new(Date.utc_today())
+      {:ok, ~M[2019-03]}
+
+      iex> Month.new(DateTime.utc_now())
+      {:ok, ~M[2019-03]}
+
+      iex> Month.new(%{year: 2019, month: 3})
+      {:ok, ~M[2019-03]}
   """
   @spec new(map) :: {:ok, Month.t()} | {:error, String.t()}
   @spec new(integer, integer) :: {:ok, Month.t()} | {:error, String.t()}
@@ -63,6 +74,14 @@ defmodule Month do
     new(year, month)
   end
 
+  @doc """
+  Creates a new `Month` struct using given year and month.
+
+  ### Examples
+
+      iex> Month.new(2019, 3)
+      {:ok, ~M[2019-03]}
+  """
   def new(year, month) when is_integer(year) and is_integer(month) do
     if :calendar.valid_date(year, month, 1) do
       {:ok, date} = Date.new(year, month, 1)
@@ -82,14 +101,17 @@ defmodule Month do
   end
 
   @doc """
-  Sames as `new/2` but returns result or throws.
+  Sames as `new/1` but returns result or throws.
   """
   @spec new!(map) :: Month.t()
-  @spec new!(integer, integer) :: Month.t()
   def new!(%{month: month, year: year}) do
     unwrap_or_raise(new(year, month))
   end
 
+  @doc """
+  Sames as `new/2` but returns result or throws.
+  """
+  @spec new!(integer, integer) :: Month.t()
   def new!(year, month) do
     unwrap_or_raise(new(year, month))
   end
@@ -146,6 +168,7 @@ defmodule Month do
 
       iex> {:ok, month} = Month.new(2019, 3)
       {:ok, ~M[2019-03]}
+
       iex> Month.add(month, 3)
       {:ok, ~M[2019-06]}
   """
