@@ -1,5 +1,8 @@
 # Changelog
 
+# 2.1.0 (2019-03-27)
+- Implemented the `String.Chars` protocol for the `Month` struct.
+
 # 2.0.0 (2019-03-22)
 Features:
 

@@ -96,6 +96,16 @@ defmodule Month do
 
   @doc """
   Returns list of dates in a month.
+
+  ### Examples
+
+      iex> Month.dates(~M[2019-02])
+      [~D[2019-02-01], ~D[2019-02-02], ~D[2019-02-03], ~D[2019-02-04], ~D[2019-02-05],
+       ~D[2019-02-06], ~D[2019-02-07], ~D[2019-02-08], ~D[2019-02-09], ~D[2019-02-10],
+       ~D[2019-02-11], ~D[2019-02-12], ~D[2019-02-13], ~D[2019-02-14], ~D[2019-02-15],
+       ~D[2019-02-16], ~D[2019-02-17], ~D[2019-02-18], ~D[2019-02-19], ~D[2019-02-20],
+       ~D[2019-02-21], ~D[2019-02-22], ~D[2019-02-23], ~D[2019-02-24], ~D[2019-02-25],
+       ~D[2019-02-26], ~D[2019-02-27], ~D[2019-02-28]]
   """
   @spec dates(Date.t()) :: list(Date.t())
   @spec dates(Month.t()) :: list(Date.t())
@@ -185,6 +195,11 @@ defmodule Month do
   Subtracts the given positive number of months from the month.
 
   Same as `add/2` when you give it a negative number of months.
+
+  ### Examples
+
+      iex> Month.subtract(~M[2019-03], 3)
+      {:ok, ~M[2018-12]}
   """
   def subtract(%Month{} = month, num_months) when num_months > 0 do
     add(month, -num_months)
@@ -202,26 +217,68 @@ defmodule Month do
 
   def subtract!(_, _), do: raise(ArgumentError, message: "invalid_argument")
 
+  @doc """
+  Returns a `%Month{}` representing current month, according to the Etc/UTC timezone.
+  """
   def utc_now(), do: now("Etc/UTC")
 
+  @doc """
+  Same as `utc_now/0` but returns result directly or throws.
+  """
   def utc_now!(), do: now!("Etc/UTC")
 
+  @doc """
+  Returns a `%Month{}` representing current month, according to the given timezone.
+
+  This requires Elixir 1.8+ and a configured timezone database (such as `tzdata`).
+
+  ### Examples
+
+      iex> Month.now("America/New_York")
+      {:ok, ~M[2019-03]}
+  """
   def now(tz) do
     {:ok, now} = DateTime.now(tz)
     new(now)
   end
 
+  @doc """
+  Same as `now/1` but returns result directly or throws.
+  """
   def now!(tz) do
     {:ok, now} = DateTime.now(tz)
     new!(now)
   end
 
+  @doc """
+  Converts given `%Month{}` to a string.
+
+  ### Examples
+
+      iex> Month.to_string(~M[2019-03])
+      "2019-03"
+  """
+  def to_string(%{year: year, month: month}) when month >= 1 and month <= 9 do
+    "#{year}-0#{month}"
+  end
+  def to_string(%{year: year, month: month}) when month >= 10 and month <= 12 do
+    "#{year}-#{month}"
+  end
+
+  #
+  # Protocols
+  #
+  #
+
+  defimpl String.Chars do
+    def to_string(month) do
+      Month.to_string(month)
+    end
+  end
+
   defimpl Inspect do
     def inspect(month, _opts) do
-      "~M[#{month.year}-#{format_month(month.month)}]"
+      "~M[#{month}]"
     end
-
-    defp format_month(day) when day > 0 and day < 10, do: "0#{day}"
-    defp format_month(day), do: "#{day}"
   end
 end

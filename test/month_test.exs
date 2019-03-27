@@ -76,4 +76,9 @@ defmodule MonthTest do
       assert Month.compare(~M[2019-12], ~M[2019-1]) == :gt
     end
   end
+
+  test "to_string/1" do
+    assert Month.to_string(~M[2019-03]) == "2019-03"
+    assert Month.to_string(~M[2019-10]) == "2019-10"
+  end
 end
