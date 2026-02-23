@@ -14,7 +14,10 @@ defmodule Month.MixProject do
         {:ex_doc, "~> 0.18", only: :dev, runtime: false}
       ],
       package: [
-        maintainers: ["Svilen Gospodinov <svilen@heresy.io>"],
+        maintainers: [
+          "Svilen Gospodinov <svilen@heresy.io>",
+          "Philip Munksgaard <philip@munksgaard.me>"
+        ],
         licenses: ["MIT"],
         links: %{Github: "https://github.com/heresydev/month"}
       ],
