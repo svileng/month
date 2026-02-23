@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.2.0 (2025-02-23)
+- Bump dependencies to avoid warnings.
+- Use `Config` instead of the deprecated `Mix.Config`.
+- Various documentation and formatting improvements.
+
 # 2.1.0 (2019-03-27)
 - Implemented the `String.Chars` protocol for the `Month` struct.
 
