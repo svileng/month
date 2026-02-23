@@ -9,7 +9,8 @@ defmodule Month.MixProject do
       version: @version,
       elixir: "~> 1.3",
       name: "Month",
-      description: "Library focused on working with months, rathen than full dates or dates with time.",
+      description:
+        "Library focused on working with months, rathen than full dates or dates with time.",
       deps: [
         {:ex_doc, "~> 0.18", only: :dev, runtime: false}
       ],
