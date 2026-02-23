@@ -284,6 +284,7 @@ defmodule Month do
   def to_string(%{year: year, month: month}) when month >= 1 and month <= 9 do
     "#{year}-0#{month}"
   end
+
   def to_string(%{year: year, month: month}) when month >= 10 and month <= 12 do
     "#{year}-#{month}"
   end

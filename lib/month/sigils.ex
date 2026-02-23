@@ -27,5 +27,4 @@ defmodule Month.Sigils do
 
     Month.new!(year, month)
   end
-
 end

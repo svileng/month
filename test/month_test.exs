@@ -4,13 +4,16 @@ defmodule MonthTest do
 
   describe "new/1" do
     test "creates a struct with correct params" do
-      Enum.each([
-        Date.utc_today(),
-        DateTime.utc_now(),
-        NaiveDateTime.utc_now(),
-      ], fn params ->
-        assert {:ok, Month.utc_now!()} == Month.new(params)
-      end)
+      Enum.each(
+        [
+          Date.utc_today(),
+          DateTime.utc_now(),
+          NaiveDateTime.utc_now()
+        ],
+        fn params ->
+          assert {:ok, Month.utc_now!()} == Month.new(params)
+        end
+      )
     end
   end
 
@@ -26,14 +29,17 @@ defmodule MonthTest do
     end
 
     test "doesn't work with invalid params" do
-      Enum.each([
-        Month.new(2019, 0),
-        Month.new(2019, 23),
-        Month.new(2019, -5),
-        Month.new(-221, 12),
-      ], fn result ->
-        assert {:error, "invalid_date"} == result
-      end)
+      Enum.each(
+        [
+          Month.new(2019, 0),
+          Month.new(2019, 23),
+          Month.new(2019, -5),
+          Month.new(-221, 12)
+        ],
+        fn result ->
+          assert {:error, "invalid_date"} == result
+        end
+      )
 
       assert_raise FunctionClauseError, fn ->
         Month.new(2019, "a")

@@ -38,7 +38,7 @@ defmodule PeriodTest do
     end
 
     test "works if first month is same as second" do
-      result =Month.Period.months(~M[2019-1], ~M[2019-1])
+      result = Month.Period.months(~M[2019-1], ~M[2019-1])
       assert result == [~M[2019-01]]
     end
 
