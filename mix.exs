@@ -19,12 +19,12 @@ defmodule Month.MixProject do
           "Philip Munksgaard <philip@munksgaard.me>"
         ],
         licenses: ["MIT"],
-        links: %{Github: "https://github.com/heresydev/month"}
+        links: %{Github: "https://github.com/svileng/month"}
       ],
       docs: [
         main: "Month",
         canonical: "http://hexdocs.pm/month",
-        source_url: "https://github.com/heresydev/month",
+        source_url: "https://github.com/svileng/month",
         source_ref: @version
       ]
     ]
